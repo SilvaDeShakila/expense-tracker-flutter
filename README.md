@@ -212,7 +212,6 @@ Make sure the following are installed:
 
 * Flutter SDK
 * Dart SDK
-* Android Studio
 * VS Code
 * Git
 * A Firebase project
