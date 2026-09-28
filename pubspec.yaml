@@ -1,5 +1,7 @@
 name: expense_tracker
+
 description: "A professional Flutter expense tracker application."
+
 publish_to: 'none'
 
 version: 1.0.0+1
@@ -27,11 +29,11 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/app_icon.png
+    - assets/app_logo.png
 
 flutter_launcher_icons:
   android: true
   ios: false
-  image_path: "assets/app_icon.png"
+  image_path: "assets/app_logo.png"
   adaptive_icon_background: "#4F46E5"
-  adaptive_icon_foreground: "assets/app_icon.png"
+  adaptive_icon_foreground: "assets/app_logo.png"
