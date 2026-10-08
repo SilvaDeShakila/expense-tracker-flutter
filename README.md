@@ -2,6 +2,17 @@
 
 A modern Flutter mobile application for managing personal expenses with Firebase Authentication, Cloud Firestore, search, filters, spending analytics, charts, and dark mode.
 
+[![Flutter](https://img.shields.io/badge/Flutter-3.x-02569B?logo=flutter\&logoColor=white)](https://flutter.dev/)
+[![Dart](https://img.shields.io/badge/Dart-3.x-0175C2?logo=dart\&logoColor=white)](https://dart.dev/)
+[![Firebase](https://img.shields.io/badge/Firebase-Integrated-FFCA28?logo=firebase\&logoColor=black)](https://firebase.google.com/)
+[![Cloud Firestore](https://img.shields.io/badge/Cloud%20Firestore-Database-FFCA28?logo=firebase\&logoColor=black)](https://firebase.google.com/products/firestore)
+[![Material 3](https://img.shields.io/badge/Material%203-UI-6750A4?logo=materialdesign\&logoColor=white)](https://m3.material.io/)
+[![fl\_chart](https://img.shields.io/badge/fl__chart-Analytics-6C63FF)](https://pub.dev/packages/fl_chart)
+[![intl](https://img.shields.io/badge/intl-Formatting-0175C2)](https://pub.dev/packages/intl)
+[![Git](https://img.shields.io/badge/Git-Version%20Control-F05032?logo=git\&logoColor=white)](https://git-scm.com/)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?logo=github\&logoColor=white)](https://github.com/)
+[![License](https://img.shields.io/badge/License-Educational%20%2F%20Portfolio-blue)](#license)
+
 ---
 
 ## Project Overview
