@@ -12,6 +12,18 @@ A modern Flutter mobile application for managing personal expenses with Firebase
 [![Git](https://img.shields.io/badge/Git-Version%20Control-F05032?logo=git\&logoColor=white)](https://git-scm.com/)
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?logo=github\&logoColor=white)](https://github.com/)
 [![License](https://img.shields.io/badge/License-Educational%20%2F%20Portfolio-blue)](#license)
+---
+## Application Preview
+
+<p align="center">
+  <img src="assets/expense_tracker_preview.png"
+       alt="Expense Tracker UI Concept Preview"
+       width="100%">
+</p>
+
+<p align="center">
+  <em>UI concept preview — illustrative design, not an actual app screenshot.</em>
+</p>
 
 ---
 
