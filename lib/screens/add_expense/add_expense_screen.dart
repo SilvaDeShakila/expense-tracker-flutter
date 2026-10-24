@@ -609,40 +609,48 @@ class _AddExpenseScreenState
   }
 
   Widget _buildCategorySelector() {
-    return Wrap(
-      spacing: 10,
-      runSpacing: 10,
-      children:
-          _categories.map(
-        (category) {
-          final isSelected =
-              _selectedCategory ==
-                  category;
-
-          return ChoiceChip(
-            selected:
-                isSelected,
-            onSelected:
-                (_) {
-              setState(() {
-                _selectedCategory =
-                    category;
-              });
-            },
-            avatar:
-                Icon(
-              _getCategoryIcon(
-                category,
-              ),
-              size: 18,
+    return StreamBuilder<List<String>>(
+      stream: _firebaseService.getCustomCategories(),
+      builder: (context, snapshot) {
+        final categories = <String>[
+          ..._categories,
+          ...?snapshot.data?.where(
+            (customCategory) => !_categories.any(
+              (defaultCategory) =>
+                  defaultCategory.toLowerCase() ==
+                  customCategory.toLowerCase(),
             ),
-            label:
-                Text(category),
-            showCheckmark:
-                false,
-          );
-        },
-      ).toList(),
+          ),
+        ];
+
+        if (_selectedCategory != null &&
+            !categories.contains(_selectedCategory)) {
+          categories.add(_selectedCategory!);
+        }
+
+        return Wrap(
+          spacing: 10,
+          runSpacing: 10,
+          children: categories.map((category) {
+            final isSelected = _selectedCategory == category;
+
+            return ChoiceChip(
+              selected: isSelected,
+              onSelected: (_) {
+                setState(() {
+                  _selectedCategory = category;
+                });
+              },
+              avatar: Icon(
+                _getCategoryIcon(category),
+                size: 18,
+              ),
+              label: Text(category),
+              showCheckmark: false,
+            );
+          }).toList(),
+        );
+      },
     );
   }
 }

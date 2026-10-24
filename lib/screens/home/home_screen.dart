@@ -10,6 +10,8 @@ import '../../widgets/expense_chart.dart';
 import '../../widgets/expense_summary_card.dart';
 import '../../widgets/spending_insights_card.dart';
 import '../add_expense/add_expense_screen.dart';
+import '../budget/budget_screen.dart';
+import '../categories/category_management_screen.dart';
 import 'all_expenses_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -563,8 +565,9 @@ class _HomeScreenState extends State<HomeScreen> {
               24,
               24,
             ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
               children: [
                 CircleAvatar(
                   radius: 32,
@@ -597,6 +600,41 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 const SizedBox(height: 24),
                 const Divider(),
+                ListTile(
+                  leading: const Icon(
+                    Icons.account_balance_wallet_outlined,
+                  ),
+                  title: const Text('Budget Tracking'),
+                  subtitle: const Text(
+                    'Set and monitor your monthly budget',
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.of(this.context).push(
+                      MaterialPageRoute<void>(
+                        builder: (_) => const BudgetScreen(),
+                      ),
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(
+                    Icons.category_outlined,
+                  ),
+                  title: const Text('Manage Categories'),
+                  subtitle: const Text(
+                    'Add, rename, or remove categories',
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.of(this.context).push(
+                      MaterialPageRoute<void>(
+                        builder: (_) =>
+                            const CategoryManagementScreen(),
+                      ),
+                    );
+                  },
+                ),
                 ListTile(
                   leading: const Icon(
                     Icons.palette_outlined,
@@ -640,7 +678,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     _confirmLogout();
                   },
                 ),
-              ],
+                ],
+              ),
             ),
           ),
         );
@@ -1092,15 +1131,13 @@ class _HomeScreenState extends State<HomeScreen> {
         icon,
         size: 19,
       ),
-      label: Expanded(
-        child: Text(
+      label: Text(
           label,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(
             fontWeight: FontWeight.w700,
           ),
-        ),
       ),
     );
   }
@@ -1813,8 +1850,8 @@ class _ExpenseDetailsSheet extends StatelessWidget {
                 ],
               ),
             ],
-          ),
         ),
+          ),
       ),
     );
   }
@@ -1906,3 +1943,6 @@ class _DetailRow extends StatelessWidget {
     );
   }
 }
+
+
+

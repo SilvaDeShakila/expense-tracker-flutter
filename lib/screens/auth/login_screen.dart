@@ -5,10 +5,12 @@ import '../../services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
   final VoidCallback onRegisterTap;
+  final AuthService? authService;
 
   const LoginScreen({
     super.key,
     required this.onRegisterTap,
+    this.authService,
   });
 
   @override
@@ -21,7 +23,10 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  final _authService = AuthService();
+  AuthService? _authServiceInstance;
+
+  AuthService get _authService =>
+      _authServiceInstance ??= widget.authService ?? AuthService();
 
   bool _isLoading = false;
   bool _isResettingPassword = false;

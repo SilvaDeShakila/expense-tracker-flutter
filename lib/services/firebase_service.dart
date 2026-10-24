@@ -9,17 +9,30 @@ class FirebaseService {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  CollectionReference<Map<String, dynamic>> get _expensesCollection {
+  String get _userId {
     final user = _auth.currentUser;
 
     if (user == null) {
       throw Exception('User is not authenticated.');
     }
 
+    return user.uid;
+  }
+
+  CollectionReference<Map<String, dynamic>>
+      get _expensesCollection {
     return _firestore
         .collection('users')
-        .doc(user.uid)
+        .doc(_userId)
         .collection('expenses');
+  }
+
+  CollectionReference<Map<String, dynamic>>
+      get _categoriesCollection {
+    return _firestore
+        .collection('users')
+        .doc(_userId)
+        .collection('categories');
   }
 
   Future<void> addExpense(ExpenseModel expense) async {
@@ -56,5 +69,98 @@ class FirebaseService {
     await _expensesCollection
         .doc(expenseId)
         .delete();
+  }
+
+  Stream<List<String>> getCustomCategories() {
+    return _categoriesCollection
+        .orderBy('name')
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs
+          .map((doc) => doc.data()['name'] as String)
+          .toList();
+    });
+  }
+
+  Future<void> addCategory(String name) async {
+    final normalizedName = name.trim();
+
+    if (normalizedName.isEmpty) {
+      throw ArgumentError('Category name cannot be empty.');
+    }
+
+    final existing = await _categoriesCollection
+        .where('name', isEqualTo: normalizedName)
+        .limit(1)
+        .get();
+
+    if (existing.docs.isNotEmpty) {
+      throw Exception('This category already exists.');
+    }
+
+    await _categoriesCollection.add({
+      'name': normalizedName,
+      'createdAt': FieldValue.serverTimestamp(),
+    });
+  }
+
+  Future<void> updateCategory(
+    String oldName,
+    String newName,
+  ) async {
+    final normalizedName = newName.trim();
+
+    if (normalizedName.isEmpty) {
+      throw ArgumentError('Category name cannot be empty.');
+    }
+
+    final duplicate = await _categoriesCollection
+        .where('name', isEqualTo: normalizedName)
+        .limit(1)
+        .get();
+
+    if (duplicate.docs.any(
+      (doc) => doc.data()['name'] != oldName,
+    )) {
+      throw Exception('This category already exists.');
+    }
+
+    final matching = await _categoriesCollection
+        .where('name', isEqualTo: oldName)
+        .get();
+
+    final batch = _firestore.batch();
+
+    for (final doc in matching.docs) {
+      batch.update(doc.reference, {
+        'name': normalizedName,
+      });
+    }
+
+    final expenses = await _expensesCollection
+        .where('category', isEqualTo: oldName)
+        .get();
+
+    for (final doc in expenses.docs) {
+      batch.update(doc.reference, {
+        'category': normalizedName,
+      });
+    }
+
+    await batch.commit();
+  }
+
+  Future<void> deleteCategory(String name) async {
+    final matching = await _categoriesCollection
+        .where('name', isEqualTo: name)
+        .get();
+
+    final batch = _firestore.batch();
+
+    for (final doc in matching.docs) {
+      batch.delete(doc.reference);
+    }
+
+    await batch.commit();
   }
 }
